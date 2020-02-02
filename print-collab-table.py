@@ -6,7 +6,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--date', help='Date of proposal submission in MM-DD-YYYY', type=str, default=None)
 parser.add_argument('--format', help='Format of the output', type=str, default='latex',
-                    choices=['latex', 'bes'])
+                    choices=['latex', 'bes', 'paragraph'])
 args = parser.parse_args()
 
 # Get the date of the proposal
@@ -49,6 +49,9 @@ if args.format == 'latex':
         advis[['Name', 'Present Institution', 'Relationship']].to_latex(fp, index=False, longtable=True)
 elif args.format == 'bes':
     collabs[['surname', 'first_name', 'Present Institution']].to_csv('bes_table.csv', index=False)
+elif args.format == 'paragraph':
+    with open('paragraph.txt', 'w') as fp:
+        text = ', '.join(collabs.apply(lambda x: f'{x["first_name"]} {x["surname"]} ({x["Present Institution"]})', axis=1))
+        print(text, file=fp)
 else:
     raise NotImplementedError(f'{args.format} not a recognized format')
-    
