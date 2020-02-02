@@ -7,6 +7,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--date', help='Date of proposal submission in MM-DD-YYYY', type=str, default=None)
 parser.add_argument('--format', help='Format of the output', type=str, default='latex',
                     choices=['latex', 'bes', 'paragraph'])
+parser.add_argument('--years', help='Years of collaborators to print', default=4, type=int)
 args = parser.parse_args()
 
 # Get the date of the proposal
@@ -15,14 +16,15 @@ if args.date is None:
     date = datetime.now() + timedelta(days=14)
 else:
     date = datetime.strptime(args.date, '%m-%d-%Y')
-print('Getting collaborators 48 months before {}'.format(date.date()))
+print(f'Getting collaborators {args.years} years before {date.date()}')
 
 # Read in collaborator list
 collabs = pd.read_excel('collaborators.xlsx', sheet_name='Coauthors')
 print('{} total collaborators'.format(len(collabs)))
 
 # Filter out the names
-collabs = collabs[collabs['Last Collaboration'] > date - timedelta(weeks=48*4)]
+weeks = args.years * 52
+collabs = collabs[collabs['Last Collaboration'] > date - timedelta(weeks=weeks)]
 print('{} relevant collaborators'.format(len(collabs)))
 
 # Compute first and last names
