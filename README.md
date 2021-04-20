@@ -16,20 +16,20 @@ pip install -r requirements.txt
 
 The Excel document associated with this repository, `collaborators.xlsx`, which contains lists of different types of collaborators.
 For now, the types are limited to "co-author" and "mentorship" relationships.
-In the case of co-authors
+In the case of co-authors, you list their affiliations and the last date you published a paper with them.
 
-Once you update the lists of authors in these lists, the `print-to-latex.py` script will allow you to render the data in different formats.
+Once you update the lists of authors in these lists, the `print-collab-table.py` script will allow you to render the data in different formats.
 
-To run the script with default settings, simply call `python print-to-latex.py` from the command line.
+To run the script with default settings, simply call `python print-collab-table.py` from the command line.
 
-`print-to-latex` takes several different keyword arguments.
+`print-collab-table` takes several different keyword arguments.
 For example, `--date` sets the submission date for the grant, which changes which authors are included in the COI list.
-Call `python print-to-latex.py --help` for a full list of options.
-
-\[PS. At present `--date` is the only keyword argument\]
+Call `python print-collab-table.py --help` for a full list of options.
 
 ### Supported Formats
 
-The script currently only supports the DOE format, which separates "Co-authors," "Co-editors" and "Advisees/Mentors" and writes them in three separate sections in a table format.
+The script currently only supports a few different formats:
 
-The code currently use [`longtable`](https://ctan.org/pkg/longtable?lang=en) to generate multi-page tables.
+- DOE format, which separates "Co-authors," "Co-editors" and "Advisees/Mentors" and writes them in three separate sections in a table format. The code currently uses [`longtable`](https://ctan.org/pkg/longtable?lang=en) to generate multi-page tables.
+- BES format, which saves the collaborators in a single CSV file.
+- Paragraph format, which writes out the author names in a long sentence
